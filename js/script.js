@@ -113,4 +113,5 @@ function rndBombGenerator (totalNum, min, max) {
         resultArray.push(singleBomb);
     }
     }
+    return resultArray;
 }
