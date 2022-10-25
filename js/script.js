@@ -57,32 +57,37 @@ function playGame() {
 
 
         // Al click del quadrato
-        square.addEventListener("click", handleSquareClick);
+        square.addEventListener("click", handleSquareClick(i, square));
     }
     
     // FUNZIONI DEL GIOCO
     // Funzione al click dello square
     function handleSquareClick(i, square) {
-        const allCells = document.getElementsByClassName("square");
-        // SE l'utente ha cliccato su un numero presente nell'array delle bombe, la cella si colora di rosso e il giocatore non può più premere le celle
-        if (bombsArray.includes(squareNumbers[i])) {
-            alert(`You lost! in ${safeCells.length +1} tries!`);
-            for (let i = 0; i < allCells.length; i++) {
-                const thisCell = allCells[i];
-                const thisCellNumber = parseInt(thisCell.textContent);
-                if (bombsArray.includes(thisCellNumber)) {
-                    thisCell.classList.add("red");
+        function innerFunction() {
+            console.log(i, square);
+            const allCells = document.getElementsByClassName("square");
+            // SE l'utente ha cliccato su un numero presente nell'array delle bombe, la cella si colora di rosso e il giocatore non può più premere le celle
+            if (bombsArray.includes(squareNumbers[i])) {
+                alert(`You lost! in ${safeCells.length +1} tries!`);
+                for (let i = 0; i < allCells.length; i++) {
+                    const thisCell = allCells[i];
+                    const thisCellNumber = parseInt(thisCell.textContent);
+                    if (bombsArray.includes(thisCellNumber)) {
+                        thisCell.classList.add("red");
+                    }
+                }
+            } else {
+            // ALTRIMENTI la cella si colora di azzurro e il gioco continua
+                square.classList.add("light-blue");
+                console.log(`${squareNumbers[i]}`);
+                safeCells.push(squareNumbers[i]);
+                if (difficultySquares - bombsArray.length === safeCells.length) {
+                    alert("WOW! You won!");
                 }
             }
-        } else {
-        // ALTRIMENTI la cella si colora di azzurro e il gioco continua
-            square.classList.add("light-blue");
-            console.log(`${squareNumbers[i]}`);
-            safeCells.push(squareNumbers[i]);
-            if (difficultySquares - bombsArray.length === safeCells.length) {
-                alert("WOW! You won!");
-            }
+            return i, square;
         }
+        return innerFunction;
     }
 }
 
